@@ -1,27 +1,8 @@
 clc;
 clear;
 
-% Build a 5x5 Poisson matrix
-% A = sparse([ 2 -1  0  0  0;
-%             -1  2 -1  0  0;
-%              0 -1  2 -1  0;
-%              0  0 -1  2 -1;
-%              0  0  0 -1  2]);
-% 
-% [S, ST] = connections(A, 0.25);
-% [C,F]=coarsening(S,ST);
-% P=interpolate(A,S,C,F);
-% Ac=galerkin(A,P);
 
-
-% Inspect S{2} and ST{2}
-% disp('Variables influencing Node 2:');
-% disp(S{2});   % Returns [1, 3]
-% 
-% disp('Variables influenced by Node 2:');
-% disp(ST{2});  % Returns [1, 3]
-
-%
+%parameters
 n = 60;
 A1 = gallery('poisson', n);
 tol=1e-6;
