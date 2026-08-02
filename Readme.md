@@ -50,6 +50,7 @@ $\textbf{Output}$: \
             $\hspace{5cm}\bullet$ coefficient vector F that will hold the nodes that will become fine 
 
 The coarsening will happen with the use of the Ruge-Stuben algorithm that states that: 
+
 $$\begin{aligned} 
 & \textbf{Coarsening algorithm} \\
 & \textbf{Inputs: } \text{coefficient matrix }S ,\text{coefficient matrix }ST \\ 
@@ -105,6 +106,7 @@ for the computation of \
  $P_(i,k)=\frac{A(i,j)+\sum_{m\in F_i^s }\left(\frac{A(i,m)\cdot A(m,j)}{\sum_{k \in C_i}A(m,k)} \right)}{A(i,i)+\sum_{m\in F_i^w} A(i,m)} \quad \forall j \in C_i $ 
 
 The algorithm is shown below: 
+
 $$\begin{aligned} 
 &1  \forall i \in F \textbf{ do: } \\
 &2 \quad \text{Compute: } F_i =S_i \cap F ,\quad  C_i =S_i \cap C \\
