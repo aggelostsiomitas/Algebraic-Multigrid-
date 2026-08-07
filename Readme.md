@@ -5,15 +5,15 @@ $\bullet$
 **set_intersection function:**
 Ths function compute the intersection between two vectors $A\cap B$ \
 $\textbf{Inputs}$: \
-$\hspace{5cm} \bullet subspace A $ \
-$\hspace{5cm} \bullet subspace B $ 
+            $\hspace{5cm} \bullet$ subspace A \
+            $\hspace{5cm} \bullet$ subspace B 
 
 $\bullet$
 **set_difference function**
 This function computer the difference between two subspaces $A\setminus B$ \
 $\textbf{Inputs}$: \
-$\hspace{5cm} \bullet subspace A $ \
-$\hspace{5cm} \bullet subspace B $ 
+            $\hspace{5cm} \bullet$ subspace A \
+            $\hspace{5cm} \bullet$ subspace B
 
 $\bullet$
 **find function**
@@ -29,11 +29,11 @@ This function computer the connection between the nodes of the matrix A
 The function has as input the coefficient matrix  A and returns the S,ST coefficient matrices 
 
 $\textbf{Inputs}$: \
-            $\hspace{5cm} \bullet $ coefficient matrix A 
+            $\hspace{5cm} \bullet$ coefficient matrix A 
 
 $\textbf{Outputs}$: \
-            $\hspace{5cm} \bullet $ coefficient matrix S that will hold the strong variables that influence node i\
-            $\hspace{5cm} \bullet $ coefficient matrix ST that will hold the variables that strongly get influenced by node i
+            $\hspace{5cm} \bullet$ coefficient matrix S that will hold the strong variables that influence node i\
+            $\hspace{5cm} \bullet$ coefficient matrix ST that will hold the variables that strongly get influenced by node i
 
 The mathematical formula for the coefficient matrix S is : $S_{i}=-a_{ij}>=\theta \cdot max(-a_{ik})$.
 The coefficient matrices S,ST will be computer by searching the matrix A and finding the non zero elements's cols,values using the find function.A vector strength will hold the negative values of the values found computing the term $-a_{ij}$ and a variable alpha will hold the maximum value computing the term $-a_{ik}$.The theta variable exists in the variables of the class AMGSOLVER  The columns that agree with the formula : $-a_{ij}>=\theta \cdot max(-a_{ik})$  will be the values of S and for every $S_i$ ST will hold the i values: $ST_j=i \quad \forall j \in  S_i$
@@ -132,3 +132,93 @@ $\text{Outputs: }$
             $\hspace{5cm} \bullet$ coefficient matrix $A_c$ \
 The galerkin function will compute the mathematical computation of $$A_c=P^T\cdot A\cdot P$$
 
+$\bullet$
+**Gauss-Seidel function**
+$\text{Inputs: }$ \
+            $\hspace{5cm} \bullet$ coefficient matrix A \
+            $\hspace{5cm}\bullet$ solution vector x as reference\
+            $\hspace{5cm}\bullet$ right hand side  vector b\
+            $\hspace{5cm}\bullet$ number of iterations iter
+            
+$\text{Outputs: }$  
+            $\hspace{5cm} \bullet$ The x solution vector is getting input as a reference so it will get adjustsed inside the function \
+The Gauss-Seidel function will perform the below iteration:
+
+$$x=x+(b-A\cdot x)/(D+L)$$
+$$x_i^{k+1}=\frac{1}{A_{ii}} \left(b_i-\sum_{j=0}^{j=i-1}A_{ij}\cdot x_j^{k+1} -\sum_{j=i+1}^{j=n-1} A_{ij}\cdot x_j^{k}\right)$$
+
+
+$\bullet$
+**Damped Jacobi function**
+$\text{Inputs: }$ \
+            $\hspace{5cm} \bullet$ coefficient matrix A \
+            $\hspace{5cm}\bullet$ solution vector x as reference\
+            $\hspace{5cm}\bullet$ right hand side  vector b\
+            $\hspace{5cm}\bullet$ omega value omega required for the method\
+            $\hspace{5cm}\bullet$ number of iterations iter
+            
+$\text{Outputs: }$  
+            $\hspace{5cm} \bullet$ The x solution vector is getting input as a reference so it will get adjussted inside the function \
+The Damped Jacobi function will perform the below iteration:
+
+$$x=x+\omega\cdot(b-A\cdot x)./D$$
+
+$\bullet$
+**amkl_to_csr function**
+It convertes the mkl sparse matrix to csr format extracting its data
+
+$\bullet$
+**amg_setup function**
+$\text{Inputs: }$ \
+            $\hspace{5cm} \bullet$ all the coefficient matrices $A_i$ for every level i \
+            $\hspace{5cm} \bullet$ all the coefficient matrices $P_i$ for every level i
+            
+$\text{Outputs: }$  
+            $\hspace{5cm} \bullet$ the function will compute all the necessary coefficient matrices for the V cycle method  
+
+For every level i until the maximum number of levels the euqivalent S,ST,C,F matrices will be computed, The P matrix for the i level and the Ac matrix using the galekrin function that will compute the A matrix for the next level
+
+$\bullet$
+**v_cycle function**
+$\text{Inputs: }$ \
+            $\hspace{5cm} \bullet$ initial level i \
+            $\hspace{5cm} \bullet$ solution vector x\
+            $\hspace{5cm} \bullet$ right hand side  vector b\
+            
+$\text{Outputs: }$  
+            $\hspace{5cm} \bullet$ the solution of the Ax=b
+
+The algorithm for the V cycle is shown below:
+
+$$\begin{aligned} 
+&c:coarse ,f:fine\\
+&1. \text{Smooth using Gauss-Seidel or Dmaped Jacobi}\\
+&2. \text{Compute the rhs for this level l } r_i=b_i-A_i x_i\\
+&3. \text{Perform restriction } b_c=P_i^T \cdot r_i \\
+&4. \text{Initialize solution to coarse level equal to zero } x_c=0 \\
+&5. \text{Recall function for the next level }\\
+&6. \text{Perform prologation  } x_f=x_f +P\cdot x_c\\
+&7. \text{Smooth again}\\
+&8. \text{If the current level is the last level solve using Gauss-Seidel or Damped Jacobi}
+\end{aligned}$$
+
+$\bullet$
+**poisson function**
+$\text{Inputs: }$ \
+            $\hspace{5cm} \bullet$ number of row and cols n 
+$\text{Outputs: }$  
+            $\hspace{5cm} \bullet$ the coefficient poisson matrix A with dimensions NxN, N=n^2
+The function computes the poisson matrix A, the initial coefficient matrix for the Ax=b
+
+$\bullet$
+**amg_solve function**
+$\text{Inputs: }$ \
+            $\hspace{5cm} \bullet$ matrix A with type that of  the class AMGSOLVE\
+            $\hspace{5cm} \bullet$ right hand side vector b \
+            $\hspace{5cm} \bullet$ solution vector x \
+            $\hspace{5cm} \bullet$ maximum number of iterations\
+            $\hspace{5cm} \bullet$ the tolerance for the convergence\
+$\text{Outputs: }$  
+            $\hspace{5cm} \bullet$ The solution x o Ax=b
+
+The function will call the V cycle function and compute the residual if $\|r\|_2 <tol\cdot \|b\|_2$ then the solution satisfies the tolerance and i can stop
