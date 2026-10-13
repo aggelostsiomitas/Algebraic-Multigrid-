@@ -84,7 +84,7 @@ class AMGSOLVER{
 
         //function that will compute the intersection between two vectors a,b
         static  std::vector<int> intersect(const std::vector<int>&a ,const std::vector<int>&b){
-            std::vector<int> res; //vector that wioll sotre the result of the intersection 
+            std::vector<int> res; //vector that will store the result of the intersection 
 
             //copies of the two vectors
             std::vector<int>aa=a;
