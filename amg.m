@@ -106,7 +106,7 @@ function [C,F]=coarsening(S,ST)
 
          % increase importance of neighbours
           % for k=ST{j}
-          for k=S{j}
+          for k=ST{j}
               if state(k)==0
                   lambda(k)=lambda(k)+1;
               end
