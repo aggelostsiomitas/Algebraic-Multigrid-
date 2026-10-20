@@ -100,7 +100,7 @@ function [C,F]=coarsening(S,ST)
     
   %the dependent points of the i element becomes fine 
   % for j=S{i}
-  for j=S{i}
+  for j=ST{i}
       if state(j)==0
         state(j)=-1; %convert state to -1 ->fine
 
